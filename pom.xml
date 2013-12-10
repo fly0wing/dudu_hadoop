@@ -23,12 +23,12 @@
         <!--<version>2.2.0</version>-->
         <!--<relativePath>../hadoop-2.2.0-src/hadoop-project</relativePath>-->
     <!--</parent>-->
-    <groupId>org.apache.hadoop</groupId>
+    <groupId>com.dudu</groupId>
     <artifactId>dudu-hadoop-test</artifactId>
     <version>2.2.0</version>
-    <name>Apache Hadoop MapReduce Examples</name>
+    <name>Dudu Hadoop Test</name>
     <packaging>jar</packaging>
-    <description>Apache Hadoop MapReduce Examples</description>
+    <description>Dudu Hadoop Test</description>
     <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
