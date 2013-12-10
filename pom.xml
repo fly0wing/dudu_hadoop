@@ -17,18 +17,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--<parent>-->
-        <!--<groupId>org.apache.hadoop</groupId>-->
-        <!--<artifactId>hadoop-project</artifactId>-->
-        <!--<version>2.2.0</version>-->
-        <!--<relativePath>../hadoop-2.2.0-src/hadoop-project</relativePath>-->
-    <!--</parent>-->
     <groupId>com.dudu</groupId>
-    <artifactId>dudu-hadoop-test</artifactId>
-    <version>2.2.0</version>
-    <name>Dudu Hadoop Test</name>
+    <artifactId>dudu-study-hadoop</artifactId>
+    <version>0.1</version>
+    <name>Dudu Study Hadoop</name>
     <packaging>jar</packaging>
-    <description>Dudu Hadoop Test</description>
+    <description>Dudu Study Hadoop</description>
     <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
