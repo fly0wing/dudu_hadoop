@@ -3,6 +3,8 @@ package com.dudu;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.CompressionCodec;
+import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -33,6 +35,9 @@ public class MyTest2 {
             System.exit(2);
         }
         //job1
+//        conf.setBoolean("mapred.compress.map.output",true);
+//        conf.setBoolean("mapred.output.compress",true);
+//        conf.setClass("mapred.output.compression.codec", GzipCodec.class, CompressionCodec.class);
         Job job1 = new Job(conf, "MyTest1");
         job1.setJarByClass(MyTest.class);
         job1.setMapperClass(MyTest.MyMap.class);
