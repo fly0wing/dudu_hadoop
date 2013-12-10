@@ -111,7 +111,9 @@ public class MyTest2 {
                             System.out.println("转换异常.[" + o1 + "],金额:" + splitOne1[2]);
                             System.out.println("or 转换异常.[" + o2 + "],金额:" + splitOne2[2]);
                         }
-                        return amount1 > amount2 ? -1 : 1;
+                        return splitOne1[3].compareTo(splitOne2[3]) == 0
+                                ? amount1 > amount2 ? -1 : 1
+                                : splitOne1[3].compareTo(splitOne2[3]);
                     }
                 });
                 int i = 1;

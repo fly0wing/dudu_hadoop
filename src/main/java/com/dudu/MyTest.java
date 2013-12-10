@@ -51,7 +51,9 @@ public class MyTest {
         protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             line = value;
             String[] split = line.toString().split(",");
-            _key = split[0]+","+split[3];
+            _key = split[0]
+//                    +","+split[3]
+            ;
             double amount = Double.parseDouble(split[2]);
             if (amount>=10) {
                 context.write(new Text(_key), line);

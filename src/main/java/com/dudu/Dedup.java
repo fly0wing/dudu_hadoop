@@ -11,6 +11,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +33,7 @@ public class Dedup {
         Job job = new Job(conf, "Date Deduplication");
         job.setJarByClass(Dedup.class);
         job.setMapperClass(MyMap.class);
-        job.setCombinerClass(MyReduce.class);
+//        job.setCombinerClass(MyReduce.class);
         job.setReducerClass(MyReduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
@@ -42,12 +45,16 @@ public class Dedup {
 
     //map 将输入中的value 复制到输出数据的key上,并执行输出
     public static class MyMap extends Mapper<Object, Text, Text, Text> {
-        private static Text line = new Text();
+        private static String line = new String();
 
         @Override
         protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-            line = value;
-            context.write(line, new Text(""));
+            line = value.toString();
+            if (line.charAt(0) == '1' || line.charAt(0) == '2') {
+                line = line.substring(1);
+                String[] split = line.split(",");
+                context.write(new Text(split[0]), value);
+            }
         }
     }
 
@@ -55,7 +62,16 @@ public class Dedup {
     public static class MyReduce extends Reducer<Text, Text, Text, Text> {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            context.write(key, new Text(""));
+            Iterator<Text> it = values.iterator();
+            List<String> list = new ArrayList<String>();
+            for (; it.hasNext(); ) {
+                list.add(it.next().toString());
+            }
+            if (list.size() != 2 && list.size() > 0) {
+                for (String t : list) {
+                    context.write(new Text(t), new Text(""));
+                }
+            }
         }
     }
 }
