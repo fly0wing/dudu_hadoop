@@ -3,7 +3,6 @@ package com.dudu.v2;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.jobcontrol.JobControl;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -58,8 +57,7 @@ public class GongJiaoBad {
             _key = split[0]
 //                    +","+split[3]
             ;
-            double amount = Double.parseDouble(split[2]);
-            if (amount >= 10 && line.toString().trim().length() > 10) {
+            if (line.toString().trim().length() > 5) {
                 context.write(new Text(_key), line);
             }
         }
@@ -88,7 +86,14 @@ public class GongJiaoBad {
                 for (; iterator.hasNext(); ) {
                     String next = iterator.next();
                     splitOne = next.split(",");
-                    if (splitOne[3].length()<3) {
+                    double amount = 0;
+                    try {
+                        amount = Double.parseDouble(splitOne[2]);
+                    } catch (NumberFormatException e) {
+                        log.error("转换异常.[" + next + "],金额:" + splitOne[2]);
+                        continue;
+                    }
+                    if (splitOne[3].length() < 3 || amount < 10) {
                         iterator.remove();
                     }
                 }
