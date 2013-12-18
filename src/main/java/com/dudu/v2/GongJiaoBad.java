@@ -10,6 +10,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -18,13 +20,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Think
  * Date: 13-12-17
  * Time: 下午7:07
- * To change this template use File | Settings | File Templates.
  */
 public class GongJiaoBad {
+    private static Logger log = LoggerFactory.getLogger(GongJiaoBad.class);
+
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Configuration conf = new Configuration();
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
@@ -81,6 +83,15 @@ public class GongJiaoBad {
                 list.add(iterator1.next().toString());
             }
             if (list.size() > 1) {
+                Iterator<String> iterator = list.iterator();
+                // 终端号为kong的记录 终端号是个下划线 _ 过滤掉这些记录.
+                for (; iterator.hasNext(); ) {
+                    String next = iterator.next();
+                    splitOne = next.split(",");
+                    if (splitOne[3].length()<3) {
+                        iterator.remove();
+                    }
+                }
                 java.util.Collections.sort(list, new Comparator<String>() {
                     @Override
                     public int compare(String o1, String o2) {
@@ -92,8 +103,8 @@ public class GongJiaoBad {
                             amount1 = Double.parseDouble(splitOne1[2]);
                             amount2 = Double.parseDouble(splitOne2[2]);
                         } catch (NumberFormatException e) {
-                            System.out.println("转换异常.[" + o1 + "],金额:" + splitOne1[2]);
-                            System.out.println("or 转换异常.[" + o2 + "],金额:" + splitOne2[2]);
+                            log.error("转换异常.[" + o1 + "],金额:" + splitOne1[2]);
+                            log.error("or 转换异常.[" + o2 + "],金额:" + splitOne2[2]);
                         }
                         return splitOne1[3].compareTo(splitOne2[3]) == 0
                                 ? amount1 > amount2 ? -1 : 1

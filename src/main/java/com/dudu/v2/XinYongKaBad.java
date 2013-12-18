@@ -56,7 +56,7 @@ public class XinYongKaBad {
             _key = split[0]
             ;
             double amount = Double.parseDouble(split[2]);
-            if (amount >= 10) {
+            if (amount >= 10 && line.toString().trim().length() > 10) {
                 context.write(new Text(_key), line);
             }
         }
