@@ -35,7 +35,7 @@ public class GongJiaoBad {
         Job job = new Job(conf, "GongJiaoBad");
         job.setJarByClass(GongJiaoBad.class);
         job.setMapperClass(GongJiaoMap.class);
-        job.setCombinerClass(GongJiaoReduce.class);
+//        job.setCombinerClass(GongJiaoReduce.class);
         job.setReducerClass(GongJiaoReduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
@@ -96,7 +96,7 @@ public class GongJiaoBad {
                             System.out.println("or 转换异常.[" + o2 + "],金额:" + splitOne2[2]);
                         }
                         return splitOne1[3].compareTo(splitOne2[3]) == 0
-                                ? amount1 > amount2 ? 1 : -1
+                                ? amount1 > amount2 ? -1 : 1
                                 : splitOne1[3].compareTo(splitOne2[3]);
                     }
                 });
@@ -106,6 +106,7 @@ public class GongJiaoBad {
                     if (_tmpStr == null) {
                         _tmpStr = splitOne[3];
                     } else if (!_tmpStr.equals(splitOne[3])) {
+                        _tmpStr = splitOne[3];
                         i = 1;
                     }
                     buffer.append(splitOne[1]).append(",")
